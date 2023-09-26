@@ -6,6 +6,7 @@ class CircularLinkedList {
         this.length = 0;
     }
 
+    // Adds a node at the beginning('Head') of the list
     addToHead ( data ) {
         const newHead = new Node( data );
         const currentHead = this.head;
@@ -34,9 +35,9 @@ class CircularLinkedList {
         let output = 'Head--> ';
 
         do {
-            output += currentNode.data + ' '
-            currentNode=currentNode.getNextNode()
-        } while ( currentNode != this.head )
+            output += currentNode.data + ' ';
+            currentNode = currentNode.getNextNode();
+        } while ( currentNode != this.head );
 
         output += '<--Tail';
         console.log( output );
