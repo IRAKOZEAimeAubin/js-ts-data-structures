@@ -149,9 +149,15 @@ class LinkedList {
 
     // Prints the list
     printList () {
+        if ( !this.head ) {
+            console.log( 'The provided list is empty.' );
+            return;
+        }
+
         let currentNode = this.head;
         let output = 'Head--> ';
-        while ( currentNode !== null ) {
+
+        while ( currentNode !== this.head ) {
             output += currentNode.data + ' ';
             currentNode = currentNode.getNextNode();
         }
