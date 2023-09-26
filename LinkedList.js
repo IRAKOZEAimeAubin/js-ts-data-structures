@@ -6,6 +6,7 @@ class LinkedList {
         this.length = 0;
     }
 
+    // Adds a node at the beginning('Head') of the list
     addToHead ( data ) {
         const newHead = new Node( data );
         const currentHead = this.head;
@@ -16,6 +17,7 @@ class LinkedList {
         this.length++;
     }
 
+    // Adds a node at the end('Tail') of the list
     addToTail ( data ) {
         let tail = this.head;
         if ( !tail ) {
@@ -29,21 +31,35 @@ class LinkedList {
         this.length++;
     }
 
+    // Adds a node at a given index in the list
     addToIndex ( data, index ) {
         if ( index < 0 || index > this.length ) {
             return;
         } else {
-            if ( index == 0 ) {
+            if ( index === 1 ) {
                 this.addToHead( data );
-            } else if ( index == this.length ) {
+            } else if ( index === this.length ) {
                 this.addToTail( data );
             } else {
-                let toAdd = this.head;
+                let node = new Node( data );
+                let current = this.head;
+                let previous;
                 let i = 0;
+
+                while ( i < index ) {
+                    i++;
+                    previous = current;
+                    current = current.getNextNode();
+                }
+
+                node.setNextNode( current );
+                previous.setNextNode( node );
+                this.length++;
             }
         }
     }
 
+    // Removes a node to the beginning('Head') of the list
     removeHead () {
         const removedHead = this.head;
         if ( !removedHead ) {
@@ -54,10 +70,84 @@ class LinkedList {
         return removedHead.data;
     }
 
-    removeTail () { }
+    // Removes a node at the end('Tail') of the list
+    removeTail () {
+        let removedTail = this.head;
+        let previous;
+        if ( !removedTail ) {
+            return;
+        } else {
+            while ( removedTail.getNextNode() !== null ) {
+                previous = removedTail;
+                removedTail = removedTail.getNextNode();
+            }
+            previous.setNextNode( null );
+            this.length--;
+            return removedTail.data;
+        }
+    }
 
-    removeFromIndex () { }
+    // Removes a node at a given index in the list
+    removeFromIndex ( index ) {
+        if ( index < 0 || index >= this.length ) {
+            return;
+        } else if ( index === 0 ) {
+            this.removeHead();
+        } else if ( index === this.length ) {
+            this.removeTail();
+        } else {
+            let current = this.head;
+            let previous;
+            let i = 0;
 
+            while ( i < index ) {
+                i++;
+                previous = current;
+                current = current.getNextNode();
+            }
+
+            previous.setNextNode( current.getNextNode() );
+            this.length--;
+        }
+    }
+
+    // Removes 
+    removeNode ( data ) {
+        let current = this.head;
+        let previous = null;
+
+        while ( current !== null ) {
+            if ( current.data === data ) {
+                if ( previous === null ) {
+                    this.head = current.getNextNode();
+                } else {
+                    previous.setNextNode( current.getNextNode() );
+                }
+                this.length--;
+                return current.data;
+            }
+            previous = current;
+            current = current.getNextNode();
+        }
+        return -1;
+    }
+
+    // Returns the index of the first occurence of a given item if it exists in the list
+    indexOf ( data ) {
+        let count = 0;
+        let current = this.head;
+
+        while ( current !== null ) {
+            if ( current.data === data ) {
+                return count;
+            }
+            count++;
+            current = current.getNextNode();
+        }
+        return -1;
+    }
+
+    // Prints the list
     printList () {
         let currentNode = this.head;
         let output = 'Head--> ';
@@ -70,6 +160,7 @@ class LinkedList {
         console.log( output );
     }
 
+    // Prints the size of the list
     printSize () {
         console.log( 'Number of items:', this.length );
     }
